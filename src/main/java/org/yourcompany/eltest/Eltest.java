@@ -54,7 +54,7 @@ public class Eltest {
     public static ArrayList<Pregunta> inicialitzarPreguntes() {
         ArrayList<Pregunta> preguntes = new ArrayList<>();
         
-         preguntes.add(new Pregunta("Qui va pintar el Guernica",
+        preguntes.add(new Pregunta("Qui va pintar el Guernica",
                 new String[]{"Velàzquez", "Goya", "Picasso"}, 2));
         preguntes.add(new Pregunta("Qui va escriure Alicia al país de les meravelles",
                 new String[]{"Grimm", "Stevenson", "Carrol"}, 2));

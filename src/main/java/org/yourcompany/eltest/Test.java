@@ -9,14 +9,13 @@ public class Test {
 
     public Test(ArrayList<Pregunta> preguntes) {
         this.llistaPreguntes = preguntes;
-        
         this.respostesUsuari = new int[preguntes.size()];
+        
         for (int i = 0; i < respostesUsuari.length; i++) {
             respostesUsuari[i] = -1; 
         }
         this.preguntaActual = 0; 
     }
-
 
     public boolean anarEndavant() {
         if (preguntaActual < llistaPreguntes.size() - 1) {
@@ -35,17 +34,15 @@ public class Test {
     }
 
     public void respondre(int resposta) {
-        respostesUsuari[preguntaActual] = resposta;
+        respostesUsuari[preguntaActual] = (resposta - 1); 
     }
 
     public String getEnunciatPreguntaActual() {
-        Pregunta preguntaQueToca = llistaPreguntes.get(preguntaActual);
-        return preguntaQueToca.getEnunciat();
+        return llistaPreguntes.get(preguntaActual).getEnunciat();
     }
 
     public String[] getRespostesPreguntaActual() {
-        Pregunta preguntaQueToca = llistaPreguntes.get(preguntaActual);
-        return preguntaQueToca.getRespostes();
+        return llistaPreguntes.get(preguntaActual).getRespostes();
     }
 
     public int getNumeroPregunta() {
@@ -54,28 +51,27 @@ public class Test {
  
     public double solucionarTest() {
         double notaFinal = 0.0;
-        double valorAcierto = 10.0 / llistaPreguntes.size();
+        double valorAcierto = 10.0 / llistaPreguntes.size(); 
         
-        for (int i = 0; i < respostesUsuari.length; i++) {
+        for (int i = 0; i < llistaPreguntes.size(); i++) {
             int respostaUsuari = respostesUsuari[i];
+            Pregunta pregunta = llistaPreguntes.get(i);
             
-            if (respostaUsuari == -1) {
-                continue; 
+            if (respostaUsuari != -1) {
+                if (respostaUsuari == pregunta.getCorrecta()) {
+                    notaFinal += valorAcierto;
+                } 
+                else {
+                    double penalitzacio = valorAcierto / pregunta.getRespostes().length;
+                    notaFinal -= penalitzacio;
+                }
             }
-            Pregunta preguntaActual = llistaPreguntes.get(i);
-            
-            if ((respostaUsuari - 1) == preguntaActual.getCorrecta()) {
-                notaFinal = notaFinal + valorAcierto;
-            } 
-            else {
-                int numeroRespostesPossibles = preguntaActual.getRespostes().length;
-                double penalitzacio = valorAcierto / numeroRespostesPossibles;
-                
-                notaFinal = notaFinal - penalitzacio;
-            }
+        }
+        
+        if (notaFinal < 0) {
+            notaFinal = 0;
         }
         
         return notaFinal;
     }
-    
 }
